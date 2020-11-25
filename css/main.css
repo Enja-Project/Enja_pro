@@ -1,0 +1,42 @@
+*{
+    margin:0px;
+    padding:0px;
+}
+
+.header{
+    background-color:black;
+    height:75px;
+}
+
+.middle{
+    background-color:aqua;
+    display:flex;
+}
+
+.input_area{
+    background-color:azure;
+    width:50vw;
+    height:350px;
+    text-align:center;
+}
+
+#input{
+    width:49vw;
+    margin-top:25px;
+    text-align:left;
+    font-family: 'Cousine', monospace;
+}
+
+.export_area{
+    background-color:honeydew;
+    width:50vw;
+    height:350px;
+}
+
+#export{
+    margin:10px;
+    font-size:20px;
+    height:330px;
+    font-family: 'Cousine', monospace;
+    overflow:scroll;
+}
