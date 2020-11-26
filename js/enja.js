@@ -292,6 +292,7 @@ function perform(){
         break;
     }
   }
+  
 
   var variable_value = {};
   var while_mode = false;
@@ -1064,13 +1065,8 @@ function perform(){
 
       case "ELSE":
         if(if_mode){
-          while(program_type[i] != "BRACE_E"){
-            i++;
-          }
-        }
-        if(else_mode){
           var run = 1;
-          i ++;
+          i += 2;
           while(run > 0){
             i++;
             if(program_type[i] == "BRACE_S"){
@@ -1080,36 +1076,41 @@ function perform(){
             }
           }
         }
+        if(else_mode){
+          i++;
+        }
         break;
       
       
       case "BRACE_E":
-        var back = 1;
-        var j = i;
-        while(back > 0){
-          j--;
-          if(program_type[j] == "BRACE_S"){
-            back--;
-          }else if(program_type[j] == "BRACE_E"){
-            back++;
-          }
-        }
-        while(program_type[j] != "WHILE" && program_type[j] != "LOOP"){
-          j--;
-        }
-        if(program_type[j] == "WHILE"){
-          j--;
-          i = j;
-        }else if(program_type[j] == "LOOP"){
-          if(loop_count[loop_count.length - 1] > 0){
-            while(program_type[j] != "BRACE_S"){
-              j++;
+        if(while_number > 0 || loop_number > 0){
+          var back = 1;
+          var j = i;
+          while(back > 0){
+            j--;
+            if(program_type[j] == "BRACE_S"){
+              back--;
+            }else if(program_type[j] == "BRACE_E"){
+              back++;
             }
-            loop_count[loop_count.length - 1] -= 1;
+          }
+          while(program_type[j] != "WHILE" && program_type[j] != "LOOP"){
+            j--;
+          }
+          if(program_type[j] == "WHILE"){
+            j--;
             i = j;
-          }else{
-            loop_count.pop();
-            loop_number.pop();
+          }else if(program_type[j] == "LOOP"){
+            if(loop_count[loop_count.length - 1] > 0){
+              while(program_type[j] != "BRACE_S"){
+                j++;
+              }
+              loop_count[loop_count.length - 1] -= 1;
+              i = j;
+            }else{
+              loop_count.pop();
+              loop_number.pop();
+            }
           }
         }
         break;
@@ -1156,7 +1157,7 @@ function perform(){
         break;
       }
 
-    if(performance.now() - startTime > 100){
+    if(performance.now() - startTime > 200){
       console.log("time out");
       i = program_type.length;
       time_out = true;
@@ -1180,6 +1181,10 @@ function perform(){
     console.log(program_type);
     console.log(variable);
     console.log(variable_value);
+    console.log(loop_number);
+    console.log(while_number);
+    console.log(if_mode);
+    console.log(else_mode);
   }
   
   const endTime = performance.now();
